@@ -1,5 +1,6 @@
 import os
 import glob
+import json
 import datetime
 from scipy.io import loadmat
 from PIL import Image
@@ -170,9 +171,11 @@ for mat_file in mat_list:
         if mode == 'train':
             image_info = pycococreatortools.create_image_info(train_image_id, os.path.basename(image_path), image.size)
             train_image_id += 1
+            train_coco_output["images"].append(image_info)
         elif mode == 'test':
             image_info = pycococreatortools.create_image_info(test_image_id, os.path.basename(image_path), image.size)
             test_image_id += 1
+            test_coco_output["images"].append(image_info)
         
         _, class_ids, _, _, _, _, bboxes = anns
         # movable_dis, class_ids, distance_ids, string_movable_labels, string_class_labels, string_distance_labels, bboxes
@@ -190,3 +193,10 @@ for mat_file in mat_list:
                 annotation_info = pycococreatortools.create_annotation_info(test_annotation_id, test_image_id, category_info, None, image.size, bounding_box=bbox)
                 test_annotation_id += 1
                 test_coco_output['annotations'].append(annotation_info)
+
+
+with open('train_coco.json', 'w') as json_file:
+    json.dump(train_coco_output, json_file)
+
+with open('test_coco.json', 'w') as json_file:
+    json.dump(test_coco_output, json_file)
