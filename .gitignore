@@ -127,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+SMD_Plus
+smd-plus
