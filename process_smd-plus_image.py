@@ -1,7 +1,7 @@
 import os
 import cv2
 import glob
-from scipy.io import loadmat
+from tqdm import tqdm
 
 
 train_list = [
@@ -62,9 +62,13 @@ test_list = [
     'MVI_0804'
 ]
 
-video_list = sorted(glob.glob('./SMD_Plus/VIS_Onboard/Videos/*.avi')) + sorted(glob.glob('./SMD_Plus/VIS_Onshore/Videos/*.avi'))
+base_path = './smd-plus'
+os.makedirs(os.path.join(base_path, 'train'), exist_ok=True)
+os.makedirs(os.path.join(base_path, 'test'), exist_ok=True)
 
-for video_file in video_list:
+video_list = sorted(glob.glob('./SMD-Plus/VIS_Onboard/Videos/*.avi')) + sorted(glob.glob('./SMD-Plus/VIS_Onshore/Videos/*.avi'))
+
+for video_file in tqdm(video_list):
     video_name = os.path.basename(video_file)
     key = video_name.replace('.avi', '').replace('_OB', '').replace('_Haze', '').replace('_VIS', '')
 
@@ -88,3 +92,5 @@ for video_file in video_list:
 
     cap.release()
     cv2.destroyAllWindows()
+
+print('Done!')

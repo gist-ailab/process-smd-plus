@@ -139,8 +139,7 @@ test_coco_output = {
 }
 
 
-mat_list = sorted(glob.glob('./SMD_Plus/VIS_Onboard/ObjectGT/*.mat')) + sorted(glob.glob('./SMD_Plus/VIS_Onshore/ObjectGT/*.mat'))
-video_list = sorted(glob.glob('./SMD_Plus/VIS_Onboard/Videos/*.avi')) + sorted(glob.glob('./SMD_Plus/VIS_Onshore/Videos/*.avi'))
+mat_list = sorted(glob.glob('./SMD-Plus/VIS_Onboard/ObjectGT/*.mat')) + sorted(glob.glob('./SMD-Plus/VIS_Onshore/ObjectGT/*.mat'))
 image_list = sorted(glob.glob('./smd-plus/train/*.png'))
 
 train_image_id = 1
@@ -197,6 +196,11 @@ for mat_file in mat_list:
 
 with open('train_coco.json', 'w') as json_file:
     json.dump(train_coco_output, json_file)
+    
+print('train_coco.json saved!')
 
 with open('test_coco.json', 'w') as json_file:
     json.dump(test_coco_output, json_file)
+    
+print('test_coco.json saved!')
+    

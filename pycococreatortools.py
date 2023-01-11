@@ -3,7 +3,7 @@ import re
 import datetime
 import numpy as np
 from itertools import groupby
-from skimage import measure
+# from skimage import measure
 from PIL import Image
 from pycocotools import mask
 

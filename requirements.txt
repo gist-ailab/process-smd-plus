@@ -1,0 +1,6 @@
+gdown
+opencv-python
+tqdm
+scipy
+pillow
+pycocotools
