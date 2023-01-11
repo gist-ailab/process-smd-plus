@@ -22,7 +22,7 @@ You can install reqirements via ```pip install -r requirements.txt```
 
 * How to create coco json file
 
-```python process_smd-plus_image.py```
+```python process_smd-plus_coco.py```
 
 
 ## Reference
