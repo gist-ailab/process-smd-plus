@@ -90,8 +90,8 @@ CATEGORIES = [
     },
     {
         'id': 2,
-        'name': 'Vessel/Ship',
-        'supercategory': 'Vessel/Ship',
+        'name': 'Vessel/ship',
+        'supercategory': 'Vessel/ship',
     },
     {
         'id': 3,
@@ -110,15 +110,25 @@ CATEGORIES = [
     },
     {
         'id': 6,
-        'name': 'Sail Boat',
-        'supercategory': 'Sail Boat',
+        'name': 'Sail boat',
+        'supercategory': 'Sail boat',
     },
     {
         'id': 7,
-        'name': 'Others',
-        'supercategory': 'Others',
+        'name': 'Other',
+        'supercategory': 'Other',
     }
 ]
+
+CATEGORY2ID = {
+    'Boat': 1,
+    'Vessel/ship': 2,
+    'Ferry': 3,
+    'Kayak': 4,
+    'Buoy': 5,
+    'Sail boat': 6,
+    'Other': 7
+}
 
 MODE = 'train'
 
@@ -173,12 +183,16 @@ for mat_file in mat_list:
             image_info = pycococreatortools.create_image_info(test_image_id, os.path.basename(image_path), image.size)
             test_coco_output["images"].append(image_info)
         
-        _, class_ids, _, _, _, _, bboxes = anns
+        _, _, class_ids, _, class_names, _, bboxes = anns
         # movable_dis, class_ids, distance_ids, string_movable_labels, string_class_labels, string_distance_labels, bboxes
-        for class_id, bbox in zip(class_ids, bboxes):
+        for class_id, class_name, bbox in zip(class_ids, class_names, bboxes):
             if len(class_id) == 0:
                 continue
-            class_id = int(class_id[0])
+            class_name = class_name[0][0]
+            class_id = CATEGORY2ID[class_name]
+            # class_name = class_name[0][0]
+            # print(class_name, class_id)
+            # assert class_id == CATEGORY2ID[class_name]
             category_info = {'id': class_id, 'is_crowd': False}
             
             if mode == 'train':
