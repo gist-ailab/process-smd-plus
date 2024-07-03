@@ -138,8 +138,7 @@ test_coco_output = {
     "annotations": []
 }
 
-
-mat_list = sorted(glob.glob('./SMD-Plus/VIS_Onboard/ObjectGT/*.mat')) + sorted(glob.glob('./SMD-Plus/VIS_Onshore/ObjectGT/*.mat'))
+mat_list = sorted(glob.glob('./smd-plus/VIS_Onboard/ObjectGT/*.mat')) + sorted(glob.glob('./smd-plus/VIS_Onshore/ObjectGT/*.mat'))
 image_list = sorted(glob.glob('./smd-plus/train/*.png'))
 
 train_image_id = 1
@@ -169,11 +168,9 @@ for mat_file in mat_list:
         image = Image.open(image_path)
         if mode == 'train':
             image_info = pycococreatortools.create_image_info(train_image_id, os.path.basename(image_path), image.size)
-            train_image_id += 1
             train_coco_output["images"].append(image_info)
         elif mode == 'test':
             image_info = pycococreatortools.create_image_info(test_image_id, os.path.basename(image_path), image.size)
-            test_image_id += 1
             test_coco_output["images"].append(image_info)
         
         _, class_ids, _, _, _, _, bboxes = anns
@@ -192,15 +189,21 @@ for mat_file in mat_list:
                 annotation_info = pycococreatortools.create_annotation_info(test_annotation_id, test_image_id, category_info, None, image.size, bounding_box=bbox)
                 test_annotation_id += 1
                 test_coco_output['annotations'].append(annotation_info)
-
+        
+        if mode == 'train':
+            train_image_id += 1
+        elif mode == 'test':
+            test_image_id += 1
+        else:
+            raise NotImplementedError
 
 with open('train_coco.json', 'w') as json_file:
     json.dump(train_coco_output, json_file)
     
-print('train_coco.json saved!')
+print('train_coco.json saved! Number of images: {}, annotations: {}'.format(train_image_id - 1, train_annotation_id - 1))
 
 with open('test_coco.json', 'w') as json_file:
     json.dump(test_coco_output, json_file)
     
-print('test_coco.json saved!')
+print('test_coco.json saved! Number of images: {}, annotations: {}'.format(test_image_id - 1, test_annotation_id - 1))
     
