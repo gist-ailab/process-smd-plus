@@ -178,7 +178,7 @@ for mat_file in mat_list:
         for class_id, bbox in zip(class_ids, bboxes):
             if len(class_id) == 0:
                 continue
-            class_id = int(class_ids[0])
+            class_id = int(class_id[0])
             category_info = {'id': class_id, 'is_crowd': False}
             
             if mode == 'train':
